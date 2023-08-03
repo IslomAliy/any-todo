@@ -39,22 +39,14 @@ const TodoCard: FC<TodoCardProps> = observer(({ title, desc, id, status }) => {
 
   return (
     <div
-      className="flex justify-between mb-2 bg-white border border-solid border-borderColor rounded-md p-4 whitespace-normal"
+      className="flex justify-between items-baseline mb-2 bg-white border border-solid border-borderColor rounded-md p-4 whitespace-normal"
       draggable
       onPointerDown={() => TodosStore.handlePointerDown(status, id)}
       onPointerMove={(e) => TodosStore.handlePointerMove(e)}
     >
-      <div className="flex gap-[20px]">
-        <input
-          type="checkbox"
-          disabled={status === "done" ? true : false}
-          checked={status === "done" ? true : false}
-          onClick={() => TodosStore.completeTodo(id)}
-        />
-        <div>
-          <h4 className="font-bold">{title}</h4>
-          <p className="text-sm text-slate">{desc}</p>
-        </div>
+      <div className="flex flex-col gap-[5px]">
+        <h4 className="font-bold">{title}</h4>
+        <p className="text-sm text-slate">{desc}</p>
       </div>
       <button
         type="button"
