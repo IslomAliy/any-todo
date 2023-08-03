@@ -19,14 +19,25 @@ interface TodoColumnProps {
 
 const TodoColumn: FC<TodoColumnProps> = observer(({ title, todos }) => {
   return (
-    <div className="w-1/4">
+    <div
+      className="w-1/4"
+      onPointerEnter={() => {
+        TodosStore.handlePointerEnter(title);
+      }}
+      onPointerOver={(e) => TodosStore.handlePointerOver(e)}
+    >
       <h2 className="font-bold capitalize mb-4">{title}</h2>
       {todos.map((todo) =>
         TodosStore.isEditing && todo.id === TodosStore.editingTodoId ? (
           // <div> test </div>
-          <AddTask status={todo.status}  isEditing  />
+          <AddTask status={todo.status} isEditing />
         ) : (
-          <TodoCard title={todo.title} desc={todo.desc} id={todo.id} />
+          <TodoCard
+            title={todo.title}
+            desc={todo.desc}
+            id={todo.id}
+            status={todo.status}
+          />
         )
       )}
       <AddTask status={title} />
