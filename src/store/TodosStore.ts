@@ -1,7 +1,8 @@
-import { makeAutoObservable, toJS } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { v4 as uuidv4 } from "uuid";
 import { priorities, statuses, todo } from "../constants/constants";
 import { SyntheticEvent } from "react";
+import { makePersistable } from "mobx-persist-store";
 
 interface addTodoData {
   title: string;
@@ -19,6 +20,11 @@ class Todo {
 
   constructor() {
     makeAutoObservable(this);
+    makePersistable(this, {
+      name: "Todo",
+      properties: ["todos"],
+      storage: window.localStorage,
+    });
   }
 
   addTodo = (todoData: addTodoData) => {
@@ -60,27 +66,15 @@ class Todo {
   };
 
   handlePointerEnter = (status: statuses) => {
-    console.log("1st line =========");
-    console.log("status", status);
-    console.log("draggingTodoId", this.draggingTodoId);
-
-    // if (this.draggingTodoId !== "") {
-    this.todos = this.todos.map((item) =>
-      item.id === this.draggingTodoId ? { ...item, status: status } : item
-    );
-    console.log(
-      "tojs-",
-      toJS(this.todos).find((el) => el.id === this.draggingTodoId)
-    );
-    this.draggingTodoId = "";
-    console.log("Last line =========");
-
-    // }
+    if (this.draggingTodoId !== "") {
+      this.todos = this.todos.map((item) =>
+        item.id === this.draggingTodoId ? { ...item, status: status } : item
+      );
+      this.draggingTodoId = "";
+    }
   };
 
   handlePointerDown = (status: string, id: string) => {
-    console.log("pointerDown", status, id);
-    // this.todos.map((todo) => (todo.id === id ? { ...todo, status } : todo));
     this.draggingTodoOrder = status;
     this.draggingTodoId = id;
   };

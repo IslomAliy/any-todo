@@ -37,12 +37,10 @@ const TodoCard: FC<TodoCardProps> = observer(({ title, desc, id, status }) => {
     };
   }, []);
 
-  console.log("dsds,", status);
-
   return (
     <div
       className="flex justify-between mb-2 bg-white border border-solid border-borderColor rounded-md p-4 whitespace-normal"
-      draggable={status !== "done"}
+      draggable
       onPointerDown={() => TodosStore.handlePointerDown(status, id)}
       onPointerMove={(e) => TodosStore.handlePointerMove(e)}
     >
@@ -65,7 +63,7 @@ const TodoCard: FC<TodoCardProps> = observer(({ title, desc, id, status }) => {
         ref={popoverRef}
       >
         <ThreDots />
-        {isPopoverOpen && <PopOver id={id} />}
+        {isPopoverOpen && <PopOver id={id} status={status} />}
       </button>
     </div>
   );

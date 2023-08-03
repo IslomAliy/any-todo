@@ -29,14 +29,14 @@ const TodoColumn: FC<TodoColumnProps> = observer(({ title, todos }) => {
       <h2 className="font-bold capitalize mb-4">{title}</h2>
       {todos.map((todo) =>
         TodosStore.isEditing && todo.id === TodosStore.editingTodoId ? (
-          // <div> test </div>
-          <AddTask status={todo.status} isEditing />
+          <AddTask status={todo.status} isEditing key={todo.id} />
         ) : (
           <TodoCard
             title={todo.title}
             desc={todo.desc}
             id={todo.id}
             status={todo.status}
+            key={todo.id}
           />
         )
       )}

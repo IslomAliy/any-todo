@@ -3,6 +3,7 @@ import TodosStore from "../../store/TodosStore";
 import { priorities, statuses } from "../../constants/constants";
 import { observer } from "mobx-react-lite";
 import TaskAddForm from "../TaskAddForm";
+import { toJS } from "mobx";
 
 interface AddTaskProps {
   status: statuses;
@@ -11,20 +12,19 @@ interface AddTaskProps {
 
 const AddTask: FC<AddTaskProps> = observer(({ status, isEditing }) => {
   const [isClicked, setIsClicked] = useState(isEditing);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState<string>("");
   const [desc, setDesc] = useState<string>("");
   const [priority, setPriority] = useState<priorities>("High");
   const titleInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (TodosStore.isEditing) {
-      TodosStore.todos
-        .filter((todo) => todo.id === TodosStore.editingTodoId)
-        .map((element) => {
-          setTitle(element.title);
-          setDesc(element.desc ?? "");
-          setPriority(element.priority);
-        });
+      const findById = toJS(
+        TodosStore.todos.find((todo) => todo.id === TodosStore.editingTodoId)
+      );
+      setTitle(findById?.title ?? "");
+      setDesc(findById?.desc ?? "");
+      setPriority(findById?.priority ?? "High");
     }
   }, [TodosStore.isEditing]);
 

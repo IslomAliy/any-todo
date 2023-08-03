@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { priorities } from "../../constants/constants";
+import TodosStore from "../../store/TodosStore";
 
 interface TaskAddFormProps {
   title: string;
@@ -75,7 +76,7 @@ const TaskAddForm: FC<TaskAddFormProps> = ({
             title ? "bg-mainBlue text-white" : "bg-borderColor"
           } rounded-md px-[10px] py-[5px]`}
         >
-          Add
+          {TodosStore.isEditing ? "Update" : "Add"}
         </button>
       </div>
     </form>
