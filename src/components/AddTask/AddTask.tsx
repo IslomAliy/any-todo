@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import TodosStore from "../../store/TodosStore";
 import { priorities, statuses } from "../../constants/constants";
 import { observer } from "mobx-react-lite";
