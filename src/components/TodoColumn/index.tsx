@@ -15,12 +15,13 @@ type todo = {
 interface TodoColumnProps {
   title: statuses;
   todos: todo[];
+  isGrid: boolean;
 }
 
-const TodoColumn: FC<TodoColumnProps> = observer(({ title, todos }) => {
+const TodoColumn: FC<TodoColumnProps> = observer(({ title, todos, isGrid }) => {
   return (
     <div
-      className="w-1/4"
+      className={`w-1/4 ${!isGrid ? "mt-10" : ""}`}
       onPointerEnter={() => {
         TodosStore.handlePointerEnter(title);
       }}
